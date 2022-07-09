@@ -1,3 +1,4 @@
+const auth = require("../middleware/auth");
 const { Rental, validate } = require("../models/rental");
 const mongoose = require("mongoose");
 const Fawn = require("fawn");
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res) => {
   res.send(rental);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const result = validate(req.body);
   if (result.error)
     return res.status(400).send(result.error.details[0].message);
